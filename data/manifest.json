@@ -1,0 +1,26 @@
+{
+  "patients.geojson": {
+    "features": 300,
+    "kilobytes": 78.9
+  },
+  "centroids.geojson": {
+    "features": 138,
+    "kilobytes": 49.8
+  },
+  "lines.geojson": {
+    "features": 136,
+    "kilobytes": 36.1
+  },
+  "hex_res3.geojson": {
+    "features": 71,
+    "kilobytes": 40.8
+  },
+  "hex_res4.geojson": {
+    "features": 67,
+    "kilobytes": 38.3
+  },
+  "blacksburg.geojson": {
+    "features": 1,
+    "kilobytes": 0.2
+  }
+}

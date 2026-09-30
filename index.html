@@ -1,0 +1,126 @@
+<!doctype html>
+<!--
+  Static MapLibre GL JS prototype. No build step: this file, style.css and
+  app.js are served as-is by `python -m http.server`.
+
+  The page is mostly empty containers. app.js fills them in once the data has
+  loaded (think of this file as the template and app.js as the script that
+  renders into it). Each <details> block below is one collapsible sidebar
+  section; the ids (id="...") are how app.js finds them.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LewisGale patient map - MapLibre test</title>
+  <link rel="stylesheet" href="vendor/maplibre-gl.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <div id="map"></div>
+
+    <aside id="panel">
+      <header id="panel-header">
+        <h1>Patient travel to Blacksburg, VA <span class="tag">MapLibre test</span></h1>
+        <!-- Only visible on phone-width screens (see style.css): collapses the panel. -->
+        <button id="panel-toggle" type="button" aria-expanded="true">Panel</button>
+      </header>
+
+      <div id="panel-body">
+        <details open>
+          <summary>Search &amp; zoom</summary>
+          <form id="search-form" autocomplete="off">
+            <input id="search-input" list="city-list" type="search" placeholder="Search a city (e.g. Sydney)">
+            <datalist id="city-list"></datalist>
+            <button type="submit">Go</button>
+          </form>
+          <div class="button-row">
+            <button type="button" data-zoom="blacksburg">Blacksburg</button>
+            <button type="button" data-zoom="conus">USA</button>
+            <button type="button" data-zoom="world">World</button>
+            <button type="button" data-zoom="data">All data</button>
+          </div>
+          <p id="search-message" class="hint"></p>
+        </details>
+
+        <details open>
+          <summary>Layers</summary>
+          <div id="layer-toggles"></div>
+          <div class="field-row">
+            <label for="point-color-mode">Patient points colour</label>
+            <select id="point-color-mode">
+              <option value="country">Country (categorical)</option>
+              <option value="distance">Distance to Blacksburg (numeric)</option>
+            </select>
+          </div>
+          <div class="field-row">
+            <label for="point-size-mode">Patient points size</label>
+            <select id="point-size-mode">
+              <option value="fixed">Fixed</option>
+              <option value="distance">By distance (numeric)</option>
+            </select>
+          </div>
+        </details>
+
+        <details>
+          <summary>Legend</summary>
+          <div id="legend"></div>
+        </details>
+
+        <details open>
+          <summary>Filters</summary>
+          <p class="hint">Country applies to every layer. Patient-count range applies to the hexagon, centroid and line layers. Procedure date applies to patient points only (hexagons are pre-aggregated, so they cannot respond to record-level filters).</p>
+          <fieldset>
+            <legend>Country <span class="link-buttons"><button type="button" id="countries-all" class="link">all</button> / <button type="button" id="countries-none" class="link">none</button></span></legend>
+            <div id="country-list"></div>
+          </fieldset>
+          <fieldset>
+            <legend>Hex patient count: <output id="count-label"></output></legend>
+            <input id="count-min" type="range" aria-label="Minimum patient count">
+            <input id="count-max" type="range" aria-label="Maximum patient count">
+          </fieldset>
+          <fieldset>
+            <legend>Procedure date: <output id="date-label"></output></legend>
+            <input id="date-min" type="range" aria-label="Earliest procedure date">
+            <input id="date-max" type="range" aria-label="Latest procedure date">
+          </fieldset>
+          <button type="button" id="reset-filters">Reset filters</button>
+        </details>
+
+        <details open>
+          <summary>Summary</summary>
+          <label class="check"><input type="checkbox" id="extent-only"> Limit summary &amp; list to current map view</label>
+          <div id="stat-cards"></div>
+          <div id="bar-chart"></div>
+          <p class="hint">Click a bar to filter to that country; click it again to clear.</p>
+        </details>
+
+        <details id="overlap-section">
+          <summary>At clicked location (overlapping polygons)</summary>
+          <div id="overlap-result"><p class="hint">Click the map to list every visible hexagon that covers that spot.</p></div>
+        </details>
+
+        <details>
+          <summary>Visible features</summary>
+          <div class="field-row">
+            <label for="list-layer">List</label>
+            <select id="list-layer">
+              <option value="patients">Patients</option>
+              <option value="hex3">H3 res 3 hexagons</option>
+              <option value="hex4">H3 res 4 hexagons</option>
+            </select>
+          </div>
+          <p id="list-count" class="hint"></p>
+          <ul id="feature-list"></ul>
+        </details>
+
+        <footer id="status">Loading...</footer>
+      </div>
+    </aside>
+  </div>
+
+  <script src="vendor/maplibre-gl.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
